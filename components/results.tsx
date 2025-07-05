@@ -224,7 +224,7 @@ export default function ResultsPage() {
               className="inline-flex items-center justify-center px-6 py-3 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
             >
               <Home className="w-5 h-5 mr-2" />
-              Retour à l'accueil
+              Retour à l&apos;accueil
             </button>
           </div>
 
