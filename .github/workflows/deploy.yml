@@ -14,7 +14,7 @@ env:
   VPS_HOST: ${{ secrets.VPS_HOST }}
   VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
   VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-  PORT: 900
+  PORT: 10006
 
 jobs:
   build-and-push:
