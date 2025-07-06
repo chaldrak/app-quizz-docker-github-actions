@@ -10,6 +10,7 @@ const roboto = localFont({
 
 export const metadata: Metadata = {
   title: "Quiz Docker & CI/CD - Testez vos connaissances",
+  metadataBase: new URL("https://quiz-docker.ledevmatheux.me"),
   description:
     "Quiz chronométré sur Docker, GitHub Actions et les pratiques CI/CD. 100 questions pour tester vos compétences.",
   openGraph: {
@@ -19,7 +20,6 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Quiz Docker & CI/CD",
-    url: "https://quiz-docker.ledevmatheux.me",
     images: [
       {
         url: "/cover.png",
