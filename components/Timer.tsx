@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { TIME_LIMIT } from "@/constants";
+import { useEffect, useState } from "react";
 
 interface TimerProps {
   timeRemaining: number;
   isActive: boolean;
 }
 
-export default function Timer({ timeRemaining, isActive }: TimerProps) {
+export default function Timer({ timeRemaining }: TimerProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,12 +19,13 @@ export default function Timer({ timeRemaining, isActive }: TimerProps) {
 
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (timeRemaining / 60) * circumference;
+  const strokeDashoffset =
+    circumference - (timeRemaining / TIME_LIMIT) * circumference;
 
   const getTimerColor = () => {
-    if (timeRemaining > 30) return 'stroke-green-500';
-    if (timeRemaining > 10) return 'stroke-yellow-500';
-    return 'stroke-red-500';
+    if (timeRemaining > TIME_LIMIT / 2) return "stroke-green-500";
+    if (timeRemaining > 10) return "stroke-yellow-500";
+    return "stroke-red-500";
   };
 
   return (
