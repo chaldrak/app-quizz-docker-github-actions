@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Trophy, Target, Clock, RotateCcw, Home, Award } from "lucide-react";
+import { TIME_LIMIT } from "@/constants";
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -171,7 +172,9 @@ export default function ResultsPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Temps utilisé</span>
-                    <span className="font-semibold">{timeSpent}s / 60s</span>
+                    <span className="font-semibold">
+                      {timeSpent}s / {TIME_LIMIT}s
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Vitesse moyenne</span>

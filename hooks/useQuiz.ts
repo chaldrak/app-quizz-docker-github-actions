@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { questions, Question } from '@/data/questions';
+import { useState, useEffect, useCallback } from "react";
+import { questions, Question } from "@/data/questions";
+import { TIME_LIMIT } from "@/constants";
 
 interface QuizState {
   currentQuestionIndex: number;
@@ -27,7 +28,7 @@ export function useQuiz() {
   const [state, setState] = useState<QuizState>({
     currentQuestionIndex: 0,
     score: 0,
-    timeRemaining: 60,
+    timeRemaining: TIME_LIMIT,
     isQuizActive: false,
     selectedAnswer: null,
     showResult: false,
@@ -46,13 +47,13 @@ export function useQuiz() {
 
   // Timer effect
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
+    let interval: ReturnType<typeof setInterval>;
+
     if (state.isQuizActive && state.timeRemaining > 0) {
       interval = setInterval(() => {
-        setState(prev => ({
+        setState((prev) => ({
           ...prev,
-          timeRemaining: prev.timeRemaining - 1
+          timeRemaining: prev.timeRemaining - 1,
         }));
       }, 1000);
     } else if (state.timeRemaining === 0 && state.isQuizActive) {
@@ -67,7 +68,7 @@ export function useQuiz() {
     setState({
       currentQuestionIndex: 0,
       score: 0,
-      timeRemaining: 60,
+      timeRemaining: TIME_LIMIT,
       isQuizActive: true,
       selectedAnswer: null,
       showResult: false,
@@ -77,37 +78,40 @@ export function useQuiz() {
     });
   }, [shuffleQuestions]);
 
-  const selectAnswer = useCallback((answerIndex: number) => {
-    if (state.selectedAnswer !== null) return;
-    
-    const currentQuestion = shuffledQuestions[state.currentQuestionIndex];
-    const isCorrect = answerIndex === currentQuestion.correctAnswer;
-    
-    setState(prev => ({
-      ...prev,
-      selectedAnswer: answerIndex,
-      score: prev.score + (isCorrect ? 10 : -5),
-      correctAnswers: prev.correctAnswers + (isCorrect ? 1 : 0),
-      wrongAnswers: prev.wrongAnswers + (isCorrect ? 0 : 1),
-      answeredQuestions: prev.answeredQuestions + 1,
-    }));
+  const selectAnswer = useCallback(
+    (answerIndex: number) => {
+      if (state.selectedAnswer !== null) return;
 
-    // Auto-advance to next question after showing result
-    setTimeout(() => {
-      if (state.currentQuestionIndex < shuffledQuestions.length - 1) {
-        setState(prev => ({
-          ...prev,
-          currentQuestionIndex: prev.currentQuestionIndex + 1,
-          selectedAnswer: null,
-        }));
-      } else {
-        endQuiz();
-      }
-    }, 1500);
-  }, [state.selectedAnswer, state.currentQuestionIndex, shuffledQuestions]);
+      const currentQuestion = shuffledQuestions[state.currentQuestionIndex];
+      const isCorrect = answerIndex === currentQuestion.correctAnswer;
+
+      setState((prev) => ({
+        ...prev,
+        selectedAnswer: answerIndex,
+        score: prev.score + (isCorrect ? 10 : -5),
+        correctAnswers: prev.correctAnswers + (isCorrect ? 1 : 0),
+        wrongAnswers: prev.wrongAnswers + (isCorrect ? 0 : 1),
+        answeredQuestions: prev.answeredQuestions + 1,
+      }));
+
+      // Auto-advance to next question after showing result
+      setTimeout(() => {
+        if (state.currentQuestionIndex < shuffledQuestions.length - 1) {
+          setState((prev) => ({
+            ...prev,
+            currentQuestionIndex: prev.currentQuestionIndex + 1,
+            selectedAnswer: null,
+          }));
+        } else {
+          endQuiz();
+        }
+      }, 1500);
+    },
+    [state.selectedAnswer, state.currentQuestionIndex, shuffledQuestions]
+  );
 
   const endQuiz = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isQuizActive: false,
       showResult: true,
@@ -118,7 +122,7 @@ export function useQuiz() {
     setState({
       currentQuestionIndex: 0,
       score: 0,
-      timeRemaining: 60,
+      timeRemaining: TIME_LIMIT,
       isQuizActive: false,
       selectedAnswer: null,
       showResult: false,
@@ -136,7 +140,7 @@ export function useQuiz() {
     correctAnswers: state.correctAnswers,
     wrongAnswers: state.wrongAnswers,
     totalQuestions: state.answeredQuestions,
-    timeSpent: 60 - state.timeRemaining,
+    timeSpent: TIME_LIMIT - state.timeRemaining,
   };
 
   return {
