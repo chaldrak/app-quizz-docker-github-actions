@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "depcheck": "depcheck --ignores='@types/*'"
+    "depcheck": "depcheck --ignores='@types/*,autoprefixer'"
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.14",
