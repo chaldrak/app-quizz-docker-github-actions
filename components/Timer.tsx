@@ -8,7 +8,7 @@ interface TimerProps {
   isActive: boolean;
 }
 
-export default function Timer({ timeRemaining, isActive }: TimerProps) {
+export default function Timer({ timeRemaining }: TimerProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
